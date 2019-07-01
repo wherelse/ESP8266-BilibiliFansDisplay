@@ -146,8 +146,8 @@ CRGB bilibili_bmp[80] =
         CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue};
 
 //---------------修改此处""内的信息--------------------
-const char *ssid = "ASUS";     //WiFi名
-const char *password = "49036gsl"; //WiFi密码
+const char *ssid = "*****";     //WiFi名
+const char *password = "******"; //WiFi密码
 String biliuid = "4969724";        //bilibili UID
 //----------------------------------------------------
 //bilibili数据调取配置
