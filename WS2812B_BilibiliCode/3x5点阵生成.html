@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+    <title>3 × 5 点阵</title>
+    <style>
+    .tb .active{
+        background:green;
+    }
+    .tb{
+        border:solid 1px black;
+        margin:5px;
+        float:left;
+    }
+    .tb td{
+        width:20px; height:20px;
+        border:solid 1px gray;
+        cursor:pointer;
+    }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<title>3 × 5 点阵</title>
+ 
+<table class="tb" data-val="000000000000000">
+<tr><th colspan="3"> </th></tr>
+<tr><th colspan="3" style="font-size:12px; font-weight:normal;">000000000000000</th></tr>
+<tr>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td></td><td></td><td></td>
+</tr>
+</table>
+ 
+<script>
+$(function(){
+    var saveData = localStorage.getItem("data");
+    // console.log(saveData);
+    if (!saveData)
+    {
+        saveData = '000000000000000,010010010000010,101101000000000,101111101111101,010111010111010,100001010100001,010001110101010,010010000000000,010100100100010,010001001001010,000010101010000,000010111010000,000000000010010,000000111000000,000000000010000,000001010100000,111101101101111,110010010010111,111001111100111,111001011001111,101101111001001,111100111001111,111100111101111,111001001001001,111101111101111,111101111001111,000010000010000,000010000010010,001010100010001,000111000111000,100010001010100,111001010000010,111101101100111,010101111101101,110101110101111,111100100100111,110101101101110,111100111100111,111100111100100,111100101101111,101101111101101,111010010010111,111010010010110,100111100110101,100100100100111,101111111101101,111101101101101,010101101101010,111101111100100,111101111001001,100111100100100,111100010001111,111010010010010,101101101101111,101101101101010,101101111111101,101101010101101,101101101010010,111001010100111,110100100100110,000100010001000,011001001001011,010101000000000,000000000000111,010001000000000,111101111101101,100100111101111,111101100100111,001001111101111,111101111100111,111100110100100,111101111001011,100100111101101,010000010010010,010000010010110,100101110101101,010010010010011,000101111101101,000111101101101,000010101101010,000111101111100,000111101111001,000100110100100,011100010001110,010111010010011,000101101101111,000101101101010,000101101111101,000101010101000,101101111001111,000111010100111,001010110010001,010010010010010,100010011010100,000001111100000';
+    }
+     
+    saveData = saveData.split(',');
+    saveData.shift();
+    for (var i=33; i<127; i++)
+    {
+        var tb = $('.tb').eq(0).clone();
+        tb.find('th').eq(0).html(String.fromCharCode(i));
+        $('body').append(tb);
+         
+        var val = saveData.shift();
+        var index = 0;
+        tb.find('td').each(function(){
+            if (val.charAt(index++) == '1')
+            {
+                $(this).addClass('active');
+            }
+        });
+        tb.data('val', val);
+        tb.find('th').eq(1).html(val);
+    }
+     
+    $('.tb td').click(function(){
+        $(this).toggleClass('active');
+         
+        var val = '';
+        var tb = $(this).parents('table');
+         
+        tb.find('td').each(function(){
+            val += $(this).hasClass('active') ? '1' : '0';
+        });
+        tb.find('th').eq(1).html(val);
+         
+        var bo = false;
+        $('.tb').each(function(){
+            if ($(this).data('val') == val)
+            {
+                bo = true;
+            }
+        });
+         
+        tb.data('val', val);
+        tb.css('border', bo ? '1px solid red' : '1px solid black');
+         
+        var data = [];
+        $('.tb').each(function(){
+            data.push($(this).data('val'));
+        });
+        localStorage.setItem("data", data);
+    });
+});
+</script>
+</body>
+</html>
