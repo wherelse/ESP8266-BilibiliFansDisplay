@@ -1,6 +1,7 @@
 /*
 *   B站粉丝数获取相关代码感谢B站UP主 flyAkari 会飞的阿卡林
 *   Design by wherelse
+*   Email:zhyhongyang@outlook.com
 */
 
 #include <FastLED.h>
@@ -134,20 +135,32 @@ const unsigned int ascii_5_3_font[] =
 
 };
 
-CRGB bilibili_bmp[80] =
+CRGB bilibili_bmp[64] =
     {
-        CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black,
-        CRGB::Black, CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, CRGB::Black,
-        CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue,
-        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
-        CRGB::DeepSkyBlue, CRGB::White, CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue, CRGB::White, CRGB::DeepSkyBlue,
-        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
-        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
-        CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue};
+        CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, 
+        CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, CRGB::DeepSkyBlue, CRGB::Black, CRGB::Black, 
+        CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, 
+        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
+        CRGB::DeepSkyBlue, CRGB::White, CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::DeepSkyBlue, CRGB::White, CRGB::DeepSkyBlue,
+        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
+        CRGB::DeepSkyBlue, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::White, CRGB::DeepSkyBlue,
+        CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue, CRGB::DeepSkyBlue
+    };
 
+CRGB tempture_bmp[40] =
+    {
+        CRGB::Black, CRGB::White, CRGB::White, CRGB::White, CRGB::Black,
+        CRGB::Black, CRGB::White, CRGB::Black, CRGB::White, CRGB::Black,
+        CRGB::Black, CRGB::White, CRGB::Red, CRGB::White, CRGB::Black,
+        CRGB::Black, CRGB::White, CRGB::Red, CRGB::White, CRGB::Black,
+        CRGB::Black, CRGB::White, CRGB::Red, CRGB::White, CRGB::Black,
+        CRGB::White, CRGB::Red, CRGB::Red, CRGB::Red, CRGB::White,
+        CRGB::White, CRGB::Red, CRGB::Red, CRGB::Red, CRGB::White,
+        CRGB::Black, CRGB::White, CRGB::White, CRGB::White, CRGB::Black,
+};
 //---------------修改此处""内的信息--------------------
-const char *ssid = "*****";     //WiFi名
-const char *password = "******"; //WiFi密码
+const char *ssid = "ASUS";         //WiFi名
+const char *password = "49036gsl"; //WiFi密码
 String biliuid = "4969724";        //bilibili UID
 //----------------------------------------------------
 //bilibili数据调取配置
@@ -170,6 +183,7 @@ bool FansGet_Flag = false;
 u8 PageChange_Flag = 0;
 
 long fans = 0;
+u8 tempture = 0;
 /*------------------------------------------
                 函数声明
 ------------------------------------------*/
@@ -190,6 +204,7 @@ void Time_Cal(void);
 void ShowTime(void);
 void DisplayFans(void);
 void ShowBMP(u8 x0, u8 x1, u8 y0, u8 y1, CRGB color[]);
+void DisplayTempture(void);
 /*------------------------------------------
                 程序初始化
 ------------------------------------------*/
@@ -227,17 +242,20 @@ void loop()
   if (FansGet_Flag == true)
     FansUpdate();
   
-  if(PageChange_Flag == 0)
+  if(PageChange_Flag == 2)
     {
       ShowTime();
     }
-    else
+    else if (PageChange_Flag == 1)
     {
       DisplayFans();
     }
-  FillScreen();
-  LedBuffer_Refresh();
-  //ScreenClear();
+    else if (PageChange_Flag == 0)
+    {
+      DisplayTempture();
+    }
+    FillScreen();
+    LedBuffer_Refresh();
 }
 
 //LED缓冲区刷新
@@ -422,7 +440,9 @@ void FansGet_Callback(void)
 //定时器回调函数
 void PageChange_Callback(void)
 {
-  PageChange_Flag = ~PageChange_Flag;
+    PageChange_Flag++;
+    if (PageChange_Flag > 2)
+      PageChange_Flag = 0;
 }
 
 //时间更新函数，从NTP服务器获取当前时间，并赋值给本地变量
@@ -433,7 +453,7 @@ void TimeUpdate(void)
   {
     timeClient.update();
     days = timeClient.getDay();
-    Serial.print(timeClient.getDay());
+    // Serial.print(timeClient.getDay());
     hours = timeClient.getHours();
     minutes = timeClient.getMinutes();
     seconds = timeClient.getSeconds();
@@ -557,15 +577,36 @@ void ShowTime(void)
 void DisplayFans(void)
 {
   long temp;
-  u8 t = 1;
+  u8 t = 1,y_position = 9;
   temp = fans;
   while (temp > 10)
   {
     temp /= 10;
     t++;
   }
-  ShowBMP(0,7,0,9,bilibili_bmp);
-  Screen_ShowNum(2, 12, fans, t, CRGB::White);
+  switch (t)
+  {
+  case 1:
+    y_position = 21;
+    break;
+  case 2:
+    y_position = 17;
+    break;
+  case 3:
+    y_position = 13;
+    break;
+  case 4:
+    y_position = 13;
+    break;
+  case 5:
+    y_position = 9;
+    break;
+  case 6:
+    y_position = 9;
+    break;
+  }
+  ShowBMP(0, 7, 0, 7, bilibili_bmp);
+  Screen_ShowNum(2, y_position, fans, t, CRGB::White);
 }
 
 void ShowBMP(u8 x0, u8 x1, u8 y0, u8 y1, CRGB color[])
@@ -579,4 +620,12 @@ void ShowBMP(u8 x0, u8 x1, u8 y0, u8 y1, CRGB color[])
       led_arry[x][y] = color[j++];
     }
   }
+}
+
+void DisplayTempture(void)
+{
+  ShowBMP(0, 7, 0, 4, tempture_bmp);
+  Screen_ShowNum(1, 10, tempture, 2, CRGB::White);
+  Screen_ShowChar(0, 19, '*', CRGB::White);
+  Screen_ShowChar(1, 22, 'C', CRGB::White);
 }
